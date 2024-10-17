@@ -48,6 +48,19 @@ class TextAnalyzer:
         for symbol, count in self.finger_load.items():
             print(f"'{symbol}': {count}")
 
+def draw_histogram(data):
+        # получаем всё из словаря data. первое - пальцы, второе - кол-во нажатий
+        labels = list(data.keys())
+        values = list(data.values())
+    
+        # создание гистограммы
+        plt.bar(labels, values)
+    
+        plt.title('Ещкерее')
+        plt.xlabel('Пальцы')
+        plt.ylabel('Количество нажатий')
+    
+        plt.show()
 
 def main():
     filename = r'C:\voina-i-mir.txt'  # Имя файла с текстом
