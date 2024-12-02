@@ -65,17 +65,22 @@ class TextAnalyzer:
                 continue
 
             # Проверяем, использовалась ли одна рука
-            same_hand = (current_finger.startswith('lfi') and previous_finger.startswith('lfi')) or \
-                        (current_finger.startswith('rfi') and previous_finger.startswith('rfi'))
+            same_hand = (current_finger.startswith('lfi') and
+                         previous_finger.startswith('lfi')) or \
+                        (current_finger.startswith('rfi') and
+                         previous_finger.startswith('rfi'))
 
             # Получаем цифры из ключей
-            current_key_num = int(current_finger[3]) if len(current_finger) > 3 and current_finger[3].isdigit() \
+            current_key_num = int(current_finger[3]) \
+                if len(current_finger) > 3 and current_finger[3].isdigit() \
                 else None
-            previous_key_num = int(previous_finger[3]) if len(previous_finger) > 3 and previous_finger[3].isdigit() \
+            previous_key_num = int(previous_finger[3]) \
+                if len(previous_finger) > 3 and previous_finger[3].isdigit() \
                 else None
 
             # Проверяем, уменьшается ли цифра
-            decreasing_number = (current_key_num is not None and previous_key_num is not None and
+            decreasing_number = (current_key_num is not None and
+                                 previous_key_num is not None and
                                  current_key_num < previous_key_num)
 
             # Если нажатие удобное, добавляем True, иначе False
