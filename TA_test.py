@@ -22,7 +22,9 @@ def analyzer():
 
 @pytest.fixture
 def create_temp_file():
-    """Создает временный тестовый файл."""
+    """
+    Создает временный тестовый файл.
+    """
     content = "Qwerty123!@\nMore text with upper CASE and digits 56789."
     with (tempfile.NamedTemporaryFile(delete=False, mode='w', encoding='utf-8')
           as temp_file):
@@ -31,7 +33,9 @@ def create_temp_file():
 
 
 def test_find_finger(analyzer):
-    """Проверяет корректность определения пальца для символов."""
+    """
+    Проверяет корректность определения пальца для символов.
+    """
     # Проверяем символ 'q'
     result_q = analyzer.find_finger('q')
     print(f"Результат для 'q': {result_q}")  # Для отладки
@@ -47,11 +51,13 @@ def test_find_finger(analyzer):
 
 
 def test_count_symbols(analyzer, create_temp_file):
-    """Проверяет корректность подсчета символов и штрафов."""
+    """
+    Проверяет корректность подсчета символов и штрафов.
+    """
     analyzer.filename = [create_temp_file]  # Передаем временный файл
     result = analyzer.count_symbols()
     assert isinstance(result, list)
-    assert len(result) == 5  # 4 словаря и 1 список штрафов
+    assert len(result) == 6  # 4 словаря и 1 список штрафов
     # Проверка словарей
     assert all(isinstance(load, dict) for load in result[:4])
     assert isinstance(result[4], list)  # Проверка списка штрафов

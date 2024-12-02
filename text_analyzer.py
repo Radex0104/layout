@@ -142,15 +142,15 @@ class TextAnalyzer:
                                     if "rfi5м" in self.finger_load3:
                                         self.finger_load3["rfi5м"] += 1
 
-                            # for symb_with_shift in self.shifts[3]:
-                            #     if char == symb_with_shift and\
-                            #     finger4 != "lfi5м":
-                            #         if "lfi5м" in self.finger_load4:
-                            #             self.finger_load4["lfi5м"] += 1
-                            #     if char == symb_with_shift and\
-                            #     finger4 == "lfi5м":
-                            #         if "rfi5м" in self.finger_load4:
-                            #             self.finger_load4["rfi5м"] += 1
+                            for symb_with_shift in self.shifts[3]:
+                                if char == symb_with_shift and\
+                                        finger4 != "lfi5м":
+                                    if "lfi5м" in self.finger_load4:
+                                        self.finger_load4["lfi5м"] += 1
+                                if char == symb_with_shift and\
+                                   finger4 == "lfi5м":
+                                    if "rfi5м" in self.finger_load4:
+                                        self.finger_load4["rfi5м"] += 1
 
                             if char.isupper():
                                 if finger != "lfi5м":

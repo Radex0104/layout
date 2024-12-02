@@ -16,6 +16,7 @@ def test_draw_histogram(tmp_path):
     data = [
         {'thumb': 10, 'index': 15, 'middle': 5, 'ring': 7, 'pinky': 3},
         {'thumb': 12, 'index': 17, 'middle': 6, 'ring': 8, 'pinky': 4},
+        {}
     ]
 
     # Вызов функции
