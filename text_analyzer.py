@@ -1,4 +1,8 @@
 import re
+from collections import deque
+
+import asyncio
+import aiofiles
 
 
 class TextAnalyzer:
@@ -12,11 +16,6 @@ class TextAnalyzer:
         :param shifts: Список сдвигов для анализа символов.
         """
         self.previous_load = None
-        self.distant_symbol = [('х', 'ъ', 'ё'),
-                               ('ш', 'щ', 'ё'),
-                               ('ц', 'щ', 'ё'),
-                               ('ш', 'щ', '')]
-        self.digits = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
         self.filename = filename
         self.symbols = symbols
         self.shifts = shifts
@@ -167,61 +166,64 @@ class TextAnalyzer:
             results.append(same_hand and decreasing_number)
         return results  # Возвращаем список результатов
 
-    def count_symbols(self):
+    async def count_symbols(self):
         """
         Производит подсчет количества нажатий для каждого пальца
-        :return: Два словаря, с количеством нажатий для каждогго пальца
+        :return: Два словаря, с количеством нажатий для каждого пальца
         """
         combor = [0] * 4
         ccombor = [0] * 4
         combol = [0] * 4
         ccombol = [0] * 4
+        combor3 = [0] * 4
+        ccombor3 = [0] * 4
+        combol3 = [0] * 4
+        ccombol3 = [0] * 4
+
+        async def process_line(line):
+            line = line.lower().replace('\n', '')
+            filtered_line = ''.join(line.split())
+
+            # Обработка пар символов
+            for i in range(len(filtered_line) - 1):
+                char1, char2 = filtered_line[i], filtered_line[i + 1]
+                self.previous_load = self.find_finger(char1)
+                t2 = self.find_finger(char2)
+
+                for k in range(4):
+                    if self.is_convenient_pressr(t2)[k]:
+                        combor[k] += 1
+                    if self.is_convenientr(t2)[k]:
+                        ccombor[k] += 1
+                    if self.is_convenient_pressl(t2)[k]:
+                        combol[k] += 1
+                    if self.is_convenientl(t2)[k]:
+                        ccombol[k] += 1
+
+            # Обработка троек символов
+            for i in range(len(filtered_line) - 2):
+                char2, char3 = filtered_line[i + 1], filtered_line[i + 2]
+                self.previous_load = self.find_finger(char2)
+                t3 = self.find_finger(char3)
+
+                for k in range(4):
+                    if self.is_convenient_pressr(t3)[k]:
+                        combor3[k] += 1
+                    if self.is_convenientr(t3)[k]:
+                        ccombor3[k] += 1
+                    if self.is_convenient_pressl(t3)[k]:
+                        combol3[k] += 1
+                    if self.is_convenientl(t3)[k]:
+                        ccombol3[k] += 1
+
         for filepath in self.filename:
             try:
-                with open(filepath, 'r', encoding='utf-8') as file:
-                    for line in file:
-                        line = re.findall(r'[a-zA-Zа-яА-Я]', line)
-                        length = len(line)
-                        for i in range(length):
-                            for j in range(i + 1, length):
-                                char1 = line[i]
-                                char2 = line[j]
-                                self.previous_load = self.find_finger(char1.lower())
-                                t2 = self.find_finger(char2.lower())
+                async with aiofiles.open(filepath, 'r', encoding='utf-8') as file:
+                    async for line in file:
+                        await process_line(line)
 
-                                for k in range(4):
-                                    if self.is_convenient_pressr(t2)[k]:
-                                        combor[k] += 1
-                                    if self.is_convenientr(t2)[k]:
-                                        ccombor[k] += 1
-                                    if self.is_convenient_pressl(t2)[k]:
-                                        combol[k] += 1
-                                    if self.is_convenientl(t2)[k]:
-                                        ccombol[k] += 1
-                final = [ccombor, combor, ccombol, combol]
+                final = [ccombor, combor, ccombol, combol, ccombor3, combor3, ccombol3, combol3]
                 return final
 
             except FileNotFoundError:
                 print("Файл не найден.")
-            except IOError:
-                print("Ошибка ввода-вывода при работе с файлом.")
-            # except Exception as e:
-            #     print(f"Произошла ошибка: {e}")
-
-    def display_counts(self):
-        """
-        Выводит на экран количество символов, напечатанных каждым пальцем.
-
-        :return: None
-        """
-        for symbol, count in self.finger_load.items():
-            print(f"'{symbol}': {count}")
-        print('---------------------')
-        for symbol, count in self.finger_load2.items():
-            print(f"'{symbol}': {count}")
-        print('---------------------')
-        for symbol, count in self.finger_load3.items():
-            print(f"'{symbol}': {count}")
-        print('---------------------')
-        for symbol, count in self.finger_load4.items():
-            print(f"'{symbol}': {count}")
