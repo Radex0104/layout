@@ -64,24 +64,25 @@ def draw_histogram(paths, data):
 
 
 def draw_histogram_fines(data):
-    '''
+    """
     Рисует гистограммы штрафов
-    '''
+    """
     color = ('red', 'blue', 'grey', 'yellow')
     labels = ('йцукен', 'diktor', 'zubachew', 'skoropis')
-    keys = labels
-    values = data
+    num_dicts = len(data)  # Количество словарей
+    keys = list(data[0].keys())
+    values = [list(d.values()) for d in data]
     width = 0.2  # Ширина баров
     x = range(len(keys))  # Позиции по оси X
     fig, ax = plt.subplots(figsize=(16, 8))
 
     # Рисуем бары для каждого словаря
-    for i in range(len(data)):
-        ax.barh(len(data) - i - 1, values[i], width,
-                label=labels[i], color=color[i])
+    for i in range(num_dicts):
+        ax.barh([pos - (i - num_dicts // 2) * width for
+                 pos in x], values[i], width, label=labels[i], color=color[i])
 
     ax.set_yticks(x)
-    ax.set_yticklabels(reversed(keys))
+    ax.set_yticklabels(keys)
     ax.set_ylabel('Раскладки')
     ax.set_xlabel('Количество штрафов')
     ax.set_title('График штрафов')

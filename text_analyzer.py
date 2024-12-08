@@ -18,10 +18,8 @@ class TextAnalyzer:
         self.symbols = symbols
         self.shifts = shifts
         self.homekeys = homekeys
-        self.finger_load = {finger: 0 for finger in symbols.keys()}
-        self.finger_load2 = {finger2: 0 for finger2 in symbols.keys()}
-        self.finger_load3 = {finger3: 0 for finger3 in symbols.keys()}
-        self.finger_load4 = {finger4: 0 for finger4 in symbols.keys()}
+        self.finger_fines = [{finger: 0 for finger in symbols.keys()} for _ in range(4)]
+        self.finger_loads = [{finger: 0 for finger in symbols.keys()} for _ in range(4)]
 
     def find_finger(self, char):
         """
@@ -116,126 +114,124 @@ class TextAnalyzer:
                             for symb_with_shift in self.shifts[0]:
                                 if char == symb_with_shift and finger \
                                         != "lfi5м":
-                                    if "lfi5м" in self.finger_load:
-                                        self.finger_load["lfi5м"] += 1
+                                    if "lfi5м" in self.finger_loads[0]:
+                                        self.finger_loads[0]["lfi5м"] += 1
                                     else:
-                                        if "rfi5м" in self.finger_load:
-                                            self.finger_load["rfi5м"] += 1
+                                        if "rfi5м" in self.finger_loads[0]:
+                                            self.finger_loads[0]["rfi5м"] += 1
 
                             for symb_with_shift in self.shifts[1]:
                                 if char == symb_with_shift and \
                                         finger2 != "lfi5м":
-                                    if "lfi5м" in self.finger_load2:
-                                        self.finger_load2["lfi5м"] += 1
+                                    if "lfi5м" in self.finger_loads[1]:
+                                        self.finger_loads[1]["lfi5м"] += 1
                                 if char == symb_with_shift and \
                                         finger2 == "lfi5м":
-                                    if "rfi5м" in self.finger_load2:
-                                        self.finger_load2["rfi5м"] += 1
+                                    if "rfi5м" in self.finger_loads[1]:
+                                        self.finger_loads[1]["rfi5м"] += 1
 
                             for symb_with_shift in self.shifts[2]:
                                 if char == symb_with_shift and \
                                         finger3 != "lfi5м":
-                                    if "lfi5м" in self.finger_load3:
-                                        self.finger_load3["lfi5м"] += 1
+                                    if "lfi5м" in self.finger_loads[2]:
+                                        self.finger_loads[2]["lfi5м"] += 1
                                 if char == symb_with_shift and \
                                         finger3 == "lfi5м":
-                                    if "rfi5м" in self.finger_load3:
-                                        self.finger_load3["rfi5м"] += 1
+                                    if "rfi5м" in self.finger_loads[2]:
+                                        self.finger_loads[2]["rfi5м"] += 1
 
                             for symb_with_shift in self.shifts[3]:
                                 if char == symb_with_shift and\
                                         finger4 != "lfi5м":
-                                    if "lfi5м" in self.finger_load4:
-                                        self.finger_load4["lfi5м"] += 1
+                                    if "lfi5м" in self.finger_loads[3]:
+                                        self.finger_loads[3]["lfi5м"] += 1
                                 if char == symb_with_shift and\
                                    finger4 == "lfi5м":
-                                    if "rfi5м" in self.finger_load4:
-                                        self.finger_load4["rfi5м"] += 1
+                                    if "rfi5м" in self.finger_loads[3]:
+                                        self.finger_loads[3]["rfi5м"] += 1
 
                             if char.isupper():
                                 if finger != "lfi5м":
-                                    if "lfi5м" in self.finger_load:
-                                        self.finger_load["lfi5м"] += 1
-                                        fine1 += 1
+                                    if "lfi5м" in self.finger_loads[0]:
+                                        self.finger_loads[0]["lfi5м"] += 1
+                                        self.finger_fines[0]["lfi5м"] += 1
                                 else:
-                                    if "rfi5м" in self.finger_load:
-                                        self.finger_load["rfi5м"] += 1
-                                        fine1 += 1
+                                    if "rfi5м" in self.finger_loads[0]:
+                                        self.finger_loads[0]["rfi5м"] += 1
+                                        self.finger_fines[0]["lfi5м"] += 1
                                 if finger2 != "lfi5м":
-                                    if "lfi5м" in self.finger_load2:
-                                        self.finger_load2["lfi5м"] += 1
-                                        fine2 += 1
+                                    if "lfi5м" in self.finger_loads[1]:
+                                        self.finger_loads[1]["lfi5м"] += 1
+                                        self.finger_fines[1]["lfi5м"] += 1
                                 else:
-                                    if "rfi5м" in self.finger_load2:
-                                        self.finger_load2["rfi5м"] += 1
-                                        fine2 += 1
+                                    if "rfi5м" in self.finger_loads[1]:
+                                        self.finger_loads[1]["rfi5м"] += 1
+                                        self.finger_fines[1]["lfi5м"] += 1
                                 if finger3 != "lfi5м":
-                                    if "lfi5м" in self.finger_load3:
-                                        self.finger_load3["lfi5м"] += 1
-                                        fine3 += 1
+                                    if "lfi5м" in self.finger_loads[2]:
+                                        self.finger_loads[2]["lfi5м"] += 1
+                                        self.finger_fines[2]["lfi5м"] += 1
                                 else:
-                                    if "rfi5м" in self.finger_load3:
-                                        self.finger_load3["rfi5м"] += 1
-                                        fine3 += 1
+                                    if "rfi5м" in self.finger_loads[2]:
+                                        self.finger_loads[2]["rfi5м"] += 1
+                                        self.finger_fines[2]["lfi5м"] += 1
                                 if finger4 != "lfi5м":
-                                    if "lfi5м" in self.finger_load4:
-                                        self.finger_load4["lfi5м"] += 1
-                                        fine4 += 1
+                                    if "lfi5м" in self.finger_loads[3]:
+                                        self.finger_loads[3]["lfi5м"] += 1
+                                        self.finger_fines[3]["lfi5м"] += 1
                                 else:
-                                    if "rfi5м" in self.finger_load4:
-                                        self.finger_load4["rfi5м"] += 1
-                                        fine4 += 1
+                                    if "rfi5м" in self.finger_loads[3]:
+                                        self.finger_loads[3]["rfi5м"] += 1
+                                        self.finger_fines[3]["lfi5м"] += 1
 
                             # Обновляем пальцы, если они существуют в словарях
-                            if finger in self.finger_load:
-                                self.finger_load[finger] += 1
+                            if finger in self.finger_loads[0]:
+                                self.finger_loads[0][finger] += 1
                                 if not (char in self.homekeys[0]):
-                                    fine1 += 1
+                                    self.finger_fines[0][finger] += 1
                                     if char in self.digits:
-                                        fine1 += 1
+                                        self.finger_fines[0][finger] += 1
                                     if char in self.distant_symbol:
-                                        fine1 += 1
-                            if finger2 in self.finger_load2:
-                                self.finger_load2[finger2] += 1
+                                        self.finger_fines[0][finger] += 1
+                            if finger2 in self.finger_loads[1]:
+                                self.finger_loads[1][finger2] += 1
                                 if not (char in self.homekeys[1]):
-                                    fine2 += 1
+                                    self.finger_fines[1][finger2] += 1
                                     if char in self.digits:
-                                        fine2 += 1
+                                        self.finger_fines[1][finger2] += 1
                                     if char in self.distant_symbol:
-                                        fine2 += 1
-                            if finger3 in self.finger_load3:
-                                self.finger_load3[finger3] += 1
+                                        self.finger_fines[1][finger2] += 1
+                            if finger3 in self.finger_loads[2]:
+                                self.finger_loads[2][finger3] += 1
                                 if not (char in self.homekeys[2]):
-                                    fine3 += 1
+                                    self.finger_fines[2][finger3] += 1
                                     if char in self.digits:
-                                        fine3 += 1
+                                        self.finger_fines[2][finger3] += 1
                                     if char in self.distant_symbol:
-                                        fine3 += 1
-                            if finger4 in self.finger_load4:
-                                self.finger_load4[finger4] += 1
+                                        self.finger_fines[2][finger3] += 1
+                            if finger4 in self.finger_loads[3]:
+                                self.finger_loads[3][finger4] += 1
                                 if not (char in self.homekeys[3]):
-                                    fine4 += 1
+                                    self.finger_fines[3][finger4] += 1
                                     if char in self.digits:
-                                        fine4 += 1
+                                        self.finger_fines[3][finger4] += 1
                                     if char in self.distant_symbol:
-                                        fine4 += 1
+                                        self.finger_fines[3][finger4] += 1
                             self.previous_load = t
                     if i > 0:
-                        if "rfi5м" in self.finger_load:
-                            self.finger_load["rfi5м"] += i
-                        if "rfi5м" in self.finger_load2:
-                            self.finger_load2["rfi5м"] += i
-                        if "rfi5м" in self.finger_load3:
-                            self.finger_load3["rfi5м"] += i
-                        if "rfi5м" in self.finger_load4:
-                            self.finger_load4["rfi5м"] += i
-                    print(f'Штрафы в йцукен: {fine1}\n'
-                          f'Штрафы в diktor: {fine2}\n'
-                          f'Штрафы в zubachew: {fine3}\n'
-                          f'Штрафы в vyzov: {fine4}\n')
-                    fines = [fine1, fine2, fine3, fine4]
-                final = [self.finger_load, self.finger_load2,
-                         self.finger_load3, self.finger_load4, fines, combo]
+                        if "rfi5м" in self.finger_loads[0]:
+                            self.finger_loads[0]["rfi5м"] += i
+                        if "rfi5м" in self.finger_loads[1]:
+                            self.finger_loads[1]["rfi5м"] += i
+                        if "rfi5м" in self.finger_loads[2]:
+                            self.finger_loads[2]["rfi5м"] += i
+                        if "rfi5м" in self.finger_loads[3]:
+                            self.finger_loads[3]["rfi5м"] += i
+                    print(f'Штрафы в йцукен: {self.finger_fines[0]}\n'
+                          f'Штрафы в diktor: {self.finger_fines[1]}\n'
+                          f'Штрафы в zubachew: {self.finger_fines[2]}\n'
+                          f'Штрафы в vyzov: {self.finger_fines[3]}\n')
+                final = [*self.finger_loads, self.finger_fines, combo]
                 return final
 
             except FileNotFoundError:
