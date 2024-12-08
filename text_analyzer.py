@@ -1,3 +1,6 @@
+import re
+
+
 class TextAnalyzer:
     def __init__(self, filename, symbols, shifts, homekeys):
         """
@@ -44,14 +47,73 @@ class TextAnalyzer:
                         i[0] = finger
         return i
 
-    def is_convenient_press(self, current_load):
+    def is_convenientr(self, current_load):
         """
         Определяет, является ли нажатие удобным для каждой раскладки.
         :return: Список из True и False для каждой раскладки.
         """
         if self.previous_load is None:
             return [False, False, False, False]
+        results2 = []  # Список для хранения результатов для каждой раскладки
 
+        for i in range(4):  # Проверяем для каждой раскладки
+            current_finger = current_load[i]
+            previous_finger = self.previous_load[i]
+
+            if current_finger is None or previous_finger is None:
+                results2.append(False)  # Если палец не найден, добавляем False
+                continue
+
+            # Проверяем, использовалась ли одна рука
+            same_hand = (current_finger.startswith('rfi') and
+                         previous_finger.startswith('rfi'))
+            results2.append(same_hand)
+        return results2
+
+    def is_convenient_pressr(self, current_load):
+        """
+        Определяет, является ли нажатие удобным для каждой раскладки.
+        :return: Список из True и False для каждой раскладки.
+        """
+        if self.previous_load is None:
+            return [False, False, False, False]
+        results1 = []  # Список для хранения результатов для каждой раскладки
+
+        for i in range(4):  # Проверяем для каждой раскладки
+            current_finger = current_load[i]
+            previous_finger = self.previous_load[i]
+
+            if current_finger is None or previous_finger is None:
+                results1.append(False)  # Если палец не найден, добавляем False
+                continue
+
+            # Проверяем, использовалась ли одна рука
+            same_hand = (current_finger.startswith('rfi') and
+                         previous_finger.startswith('rfi'))
+            # Получаем цифры из ключей
+            current_key_num = int(current_finger[3]) \
+                if len(current_finger) > 3 and current_finger[3].isdigit() \
+                else None
+            previous_key_num = int(previous_finger[3]) \
+                if len(previous_finger) > 3 and previous_finger[3].isdigit() \
+                else None
+
+            # Проверяем, уменьшается ли цифра
+            decreasing_number = (current_key_num is not None and
+                                 previous_key_num is not None and
+                                 current_key_num < previous_key_num)
+
+            # Если нажатие удобное, добавляем True, иначе False
+            results1.append(same_hand and decreasing_number)
+        return results1  # Возвращаем список результатов
+
+    def is_convenientl(self, current_load):
+        """
+        Определяет, является ли нажатие удобным для каждой раскладки.
+        :return: Список из True и False для каждой раскладки.
+        """
+        if self.previous_load is None:
+            return [False, False, False, False]
         results = []  # Список для хранения результатов для каждой раскладки
 
         for i in range(4):  # Проверяем для каждой раскладки
@@ -64,10 +126,30 @@ class TextAnalyzer:
 
             # Проверяем, использовалась ли одна рука
             same_hand = (current_finger.startswith('lfi') and
-                         previous_finger.startswith('lfi')) or \
-                        (current_finger.startswith('rfi') and
-                         previous_finger.startswith('rfi'))
+                         previous_finger.startswith('lfi'))
+            results.append(same_hand)
+        return results
 
+    def is_convenient_pressl(self, current_load):
+        """
+        Определяет, является ли нажатие удобным для каждой раскладки.
+        :return: Список из True и False для каждой раскладки.
+        """
+        if self.previous_load is None:
+            return [False, False, False, False]
+        results = []  # Список для хранения результатов для каждой раскладки
+
+        for i in range(4):  # Проверяем для каждой раскладки
+            current_finger = current_load[i]
+            previous_finger = self.previous_load[i]
+
+            if current_finger is None or previous_finger is None:
+                results.append(False)  # Если палец не найден, добавляем False
+                continue
+
+            # Проверяем, использовалась ли одна рука
+            same_hand = (current_finger.startswith('lfi') and
+                         previous_finger.startswith('lfi'))
             # Получаем цифры из ключей
             current_key_num = int(current_finger[3]) \
                 if len(current_finger) > 3 and current_finger[3].isdigit() \
@@ -83,7 +165,6 @@ class TextAnalyzer:
 
             # Если нажатие удобное, добавляем True, иначе False
             results.append(same_hand and decreasing_number)
-
         return results  # Возвращаем список результатов
 
     def count_symbols(self):
@@ -91,147 +172,33 @@ class TextAnalyzer:
         Производит подсчет количества нажатий для каждого пальца
         :return: Два словаря, с количеством нажатий для каждогго пальца
         """
-        fine1 = 0
-        fine2 = 0
-        fine3 = 0
-        fine4 = 0
-        combo = [0] * 4
+        combor = [0] * 4
+        ccombor = [0] * 4
+        combol = [0] * 4
+        ccombol = [0] * 4
         for filepath in self.filename:
             try:
-                with (open(filepath, 'r', encoding='utf-8') as file):
-                    i = -1
+                with open(filepath, 'r', encoding='utf-8') as file:
                     for line in file:
-                        i += 1
-                        for char in line.strip():
-                            t = self.find_finger(char.lower())
-                            finger = t[0]
-                            finger2 = t[1]
-                            finger3 = t[2]
-                            finger4 = t[3]
-                            for j in range(4):
-                                if self.is_convenient_press(t)[j]:
-                                    combo[j] += 1  # Увеличиваем значение на 1
-                            for symb_with_shift in self.shifts[0]:
-                                if char == symb_with_shift and finger \
-                                        != "lfi5м":
-                                    if "lfi5м" in self.finger_loads[0]:
-                                        self.finger_loads[0]["lfi5м"] += 1
-                                    else:
-                                        if "rfi5м" in self.finger_loads[0]:
-                                            self.finger_loads[0]["rfi5м"] += 1
+                        line = re.findall(r'[a-zA-Zа-яА-Я]', line)
+                        length = len(line)
+                        for i in range(length):
+                            for j in range(i + 1, length):
+                                char1 = line[i]
+                                char2 = line[j]
+                                self.previous_load = self.find_finger(char1.lower())
+                                t2 = self.find_finger(char2.lower())
 
-                            for symb_with_shift in self.shifts[1]:
-                                if char == symb_with_shift and \
-                                        finger2 != "lfi5м":
-                                    if "lfi5м" in self.finger_loads[1]:
-                                        self.finger_loads[1]["lfi5м"] += 1
-                                if char == symb_with_shift and \
-                                        finger2 == "lfi5м":
-                                    if "rfi5м" in self.finger_loads[1]:
-                                        self.finger_loads[1]["rfi5м"] += 1
-
-                            for symb_with_shift in self.shifts[2]:
-                                if char == symb_with_shift and \
-                                        finger3 != "lfi5м":
-                                    if "lfi5м" in self.finger_loads[2]:
-                                        self.finger_loads[2]["lfi5м"] += 1
-                                if char == symb_with_shift and \
-                                        finger3 == "lfi5м":
-                                    if "rfi5м" in self.finger_loads[2]:
-                                        self.finger_loads[2]["rfi5м"] += 1
-
-                            for symb_with_shift in self.shifts[3]:
-                                if char == symb_with_shift and\
-                                        finger4 != "lfi5м":
-                                    if "lfi5м" in self.finger_loads[3]:
-                                        self.finger_loads[3]["lfi5м"] += 1
-                                if char == symb_with_shift and\
-                                   finger4 == "lfi5м":
-                                    if "rfi5м" in self.finger_loads[3]:
-                                        self.finger_loads[3]["rfi5м"] += 1
-
-                            if char.isupper():
-                                if finger != "lfi5м":
-                                    if "lfi5м" in self.finger_loads[0]:
-                                        self.finger_loads[0]["lfi5м"] += 1
-                                        self.finger_fines[0]["lfi5м"] += 1
-                                else:
-                                    if "rfi5м" in self.finger_loads[0]:
-                                        self.finger_loads[0]["rfi5м"] += 1
-                                        self.finger_fines[0]["lfi5м"] += 1
-                                if finger2 != "lfi5м":
-                                    if "lfi5м" in self.finger_loads[1]:
-                                        self.finger_loads[1]["lfi5м"] += 1
-                                        self.finger_fines[1]["lfi5м"] += 1
-                                else:
-                                    if "rfi5м" in self.finger_loads[1]:
-                                        self.finger_loads[1]["rfi5м"] += 1
-                                        self.finger_fines[1]["lfi5м"] += 1
-                                if finger3 != "lfi5м":
-                                    if "lfi5м" in self.finger_loads[2]:
-                                        self.finger_loads[2]["lfi5м"] += 1
-                                        self.finger_fines[2]["lfi5м"] += 1
-                                else:
-                                    if "rfi5м" in self.finger_loads[2]:
-                                        self.finger_loads[2]["rfi5м"] += 1
-                                        self.finger_fines[2]["lfi5м"] += 1
-                                if finger4 != "lfi5м":
-                                    if "lfi5м" in self.finger_loads[3]:
-                                        self.finger_loads[3]["lfi5м"] += 1
-                                        self.finger_fines[3]["lfi5м"] += 1
-                                else:
-                                    if "rfi5м" in self.finger_loads[3]:
-                                        self.finger_loads[3]["rfi5м"] += 1
-                                        self.finger_fines[3]["lfi5м"] += 1
-
-                            # Обновляем пальцы, если они существуют в словарях
-                            if finger in self.finger_loads[0]:
-                                self.finger_loads[0][finger] += 1
-                                if not (char in self.homekeys[0]):
-                                    self.finger_fines[0][finger] += 1
-                                    if char in self.digits:
-                                        self.finger_fines[0][finger] += 1
-                                    if char in self.distant_symbol:
-                                        self.finger_fines[0][finger] += 1
-                            if finger2 in self.finger_loads[1]:
-                                self.finger_loads[1][finger2] += 1
-                                if not (char in self.homekeys[1]):
-                                    self.finger_fines[1][finger2] += 1
-                                    if char in self.digits:
-                                        self.finger_fines[1][finger2] += 1
-                                    if char in self.distant_symbol:
-                                        self.finger_fines[1][finger2] += 1
-                            if finger3 in self.finger_loads[2]:
-                                self.finger_loads[2][finger3] += 1
-                                if not (char in self.homekeys[2]):
-                                    self.finger_fines[2][finger3] += 1
-                                    if char in self.digits:
-                                        self.finger_fines[2][finger3] += 1
-                                    if char in self.distant_symbol:
-                                        self.finger_fines[2][finger3] += 1
-                            if finger4 in self.finger_loads[3]:
-                                self.finger_loads[3][finger4] += 1
-                                if not (char in self.homekeys[3]):
-                                    self.finger_fines[3][finger4] += 1
-                                    if char in self.digits:
-                                        self.finger_fines[3][finger4] += 1
-                                    if char in self.distant_symbol:
-                                        self.finger_fines[3][finger4] += 1
-                            self.previous_load = t
-                    if i > 0:
-                        if "rfi5м" in self.finger_loads[0]:
-                            self.finger_loads[0]["rfi5м"] += i
-                        if "rfi5м" in self.finger_loads[1]:
-                            self.finger_loads[1]["rfi5м"] += i
-                        if "rfi5м" in self.finger_loads[2]:
-                            self.finger_loads[2]["rfi5м"] += i
-                        if "rfi5м" in self.finger_loads[3]:
-                            self.finger_loads[3]["rfi5м"] += i
-                    print(f'Штрафы в йцукен: {self.finger_fines[0]}\n'
-                          f'Штрафы в diktor: {self.finger_fines[1]}\n'
-                          f'Штрафы в zubachew: {self.finger_fines[2]}\n'
-                          f'Штрафы в vyzov: {self.finger_fines[3]}\n')
-                final = [*self.finger_loads, self.finger_fines, combo]
+                                for k in range(4):
+                                    if self.is_convenient_pressr(t2)[k]:
+                                        combor[k] += 1
+                                    if self.is_convenientr(t2)[k]:
+                                        ccombor[k] += 1
+                                    if self.is_convenient_pressl(t2)[k]:
+                                        combol[k] += 1
+                                    if self.is_convenientl(t2)[k]:
+                                        ccombol[k] += 1
+                final = [ccombor, combor, ccombol, combol]
                 return final
 
             except FileNotFoundError:

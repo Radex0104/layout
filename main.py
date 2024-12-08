@@ -11,7 +11,8 @@ from time import monotonic
 
 
 def main():
-    filename = (r'C:\voina-i-mir.txt', r'C:\1grams-3.txt')
+    filename = (r'C:\sortchbukw.csv', )
+    labels = ('йцукен', 'diktor', 'zubachew', 'skoropis')
     symbols_with_shift = (('!', '"', '№', ';', '%', ':', '?',
                            '*', '(', ')', '_', '+', '/', ','),
                           ('№', '%', ':', ';', '-', '"', '(',
@@ -75,17 +76,18 @@ def main():
     symbol_counter = TextAnalyzer(filename, keylout_dd,
                                   symbols_with_shift, homerows)
     final_loads = symbol_counter.count_symbols()
-    # symbol_counter.display_counts()
-    time_finish = monotonic()
-    loads_for_combo = final_loads[-1]
-    loads_for_fines = final_loads[-2]
-    draw_histogram(filename, final_loads)
-    draw_histogram_fines(loads_for_fines)
-    draw_histogram_combo(loads_for_combo)
-    return time_finish
+    loads_for_ccombol = final_loads[2]
+    loads_for_combol = final_loads[3]
+    loads_for_ccombor = final_loads[0]
+    loads_for_combor = final_loads[1]
+    print(f"{'':<20} {'Правая':<30} {'Левая':<30}")
+    print(
+        f"{'Одной рукой':<20} {' '.join(f'{loads_for_ccombor[i]}' for i in range(4)):<30} \
+{' '.join(f'{loads_for_ccombol[i]}' for i in range(4)):<30}")
+    print(
+        f"{'Удобная':<20} {' '.join(f'{loads_for_combor[i]}' for i in range(4)):<30} \
+{' '.join(f'{loads_for_combol[i]}' for i in range(4)):<30}")
 
 
 if __name__ == "__main__":
-    t1 = monotonic()
-    t2 = main()
-    print(t2 - t1)
+    main()
