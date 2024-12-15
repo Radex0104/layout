@@ -93,25 +93,25 @@ def draw_histogram_fines(data):
 
 
 def draw_histogram_combo(data):
-    '''
+    """
     Рисует гистограммы удобных комбинаций
-    '''
+    """
     color = ('red', 'blue', 'grey', 'yellow')
     labels = ('йцукен', 'diktor', 'zubachew', 'skoropis')
-    keys = labels
+    labels = ['Левые пары', 'Правильные левые пары', 'Правые пары', 'Правильные правые пары',
+              'Левые тройки', 'Правильные левые тройки', 'Правые тройки', 'Правильные правые тройки']
     values = data
-    width = 0.2  # Ширина баров
-    x = range(len(keys))  # Позиции по оси X
+    width = 0.4  # Ширина баров
+    x = range(len(labels))  # Позиции по оси Y
     fig, ax = plt.subplots(figsize=(16, 8))
 
-    # Рисуем бары для каждого словаря
+    # Рисуем бары для каждого значения
     for i in range(len(data)):
         ax.barh(len(data) - i - 1, values[i], width,
-                label=labels[i], color=color[i])
+                label=labels[i], color=color[0])
 
     ax.set_yticks(x)
-    ax.set_yticklabels(reversed(keys))
-    ax.set_ylabel('Раскладки')
+    ax.set_yticklabels(reversed(labels))
     ax.set_xlabel('Количество комбинаций')
     ax.set_title('График удобных комбинаций')
     ax.legend()
