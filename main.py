@@ -80,6 +80,7 @@ def main():
     loads_for_combol = final_loads[3]
     loads_for_ccombor = final_loads[0]
     loads_for_combor = final_loads[1]
+    draw_histogram_fines(final_loads)
     print(f"{'':<20} {'Правая':<30} {'Левая':<30}")
     print(
         f"{'Одной рукой':<20} {' '.join(f'{loads_for_ccombor[i]}' for i in range(4)):<30} \

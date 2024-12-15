@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import os
+import numpy as np
 
 
 def draw_histogram(paths, data):
@@ -69,27 +70,28 @@ def draw_histogram_fines(data):
     """
     color = ('red', 'blue', 'grey', 'yellow')
     labels = ('йцукен', 'diktor', 'zubachew', 'skoropis')
-    num_dicts = len(data)  # Количество словарей
-    keys = list(data[0].keys())
-    values = [list(d.values()) for d in data]
-    width = 0.2  # Ширина баров
-    x = range(len(keys))  # Позиции по оси X
+    keys = ['Правая', 'Удобная правая', 'Левая', 'Удобная левая']
+
+    # Преобразуем данные для построения графика
+    values = data  # Теперь values - это просто список списков
+    num_dicts = len(values)  # Количество наборов данных
+    width = 0.17  # Ширина баров
+    x = np.arange(num_dicts)  # Позиции по оси X
     fig, ax = plt.subplots(figsize=(16, 8))
 
-    # Рисуем бары для каждого словаря
+    # Рисуем бары для каждого набора данных
     for i in range(num_dicts):
-        ax.barh([pos - (i - num_dicts // 2) * width for
-                 pos in x], values[i], width, label=labels[i], color=color[i])
+        ax.barh(x + i * width, [values[j][i] for j in range(num_dicts)], width, label=labels[i], color=color[i])
 
     ax.set_yticks(x)
     ax.set_yticklabels(keys)
-    ax.set_ylabel('Раскладки')
-    ax.set_xlabel('Количество штрафов')
-    ax.set_title('График штрафов')
+    ax.set_xlabel('Количество комбинаций')
+    ax.set_title('График удобных комбинаций')
     ax.legend()
 
     plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1)
     plt.show()
+
 
 
 def draw_histogram_combo(data):
