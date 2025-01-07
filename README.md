@@ -25,7 +25,7 @@
 ![раскладка диктор](https://sun9-54.userapi.com/impg/l8jpSm6nDYG_80EUwio_EbE0ijSewHzH1LkdFw/cSANdY32a7o.jpg?size=742x256&quality=95&sign=adbbb76d316f284d7d3ea0b6f1a755ad&type=album)
 
 **Раскладка зубачев**
-<!--- замени картинку -->
+
 ![Раскладка Зубачев](https://github.com/user-attachments/assets/e33e18da-eeb6-46eb-a86f-3b8510d52453)
 
 
