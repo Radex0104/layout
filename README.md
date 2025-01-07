@@ -66,7 +66,7 @@ python3 main.py
 -->
 **Лабораторная №5 "Подсчёт диграмм и триграмм, нажатых удобным перебором в раскладках *Зубачев* и *Йцукен*":**
 
-![лабораторная 5](![cobinacione](https://github.com/user-attachments/assets/214e4117-bd0f-4937-a6db-cb7cc6e2ddfb))
+![лабораторная 5](https://github.com/user-attachments/assets/214e4117-bd0f-4937-a6db-cb7cc6e2ddfb)
 
 
 ## Вывод
