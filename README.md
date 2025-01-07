@@ -26,7 +26,8 @@
 
 **Раскладка зубачев**
 <!--- замени картинку -->
-![Раскладка Зубачев](https://sun9-35.userapi.com/impg/MA8uqTjVNU8NyTRoinvH8OJBnxIP8Eke5m4GLA/YD33B3uGVAM.jpg?size=1728x576&quality=95&sign=ebf334233bddaa58f6ede4e2e23baf5e&type=album)
+![Раскладка Зубачев](https://github.com/user-attachments/assets/e33e18da-eeb6-46eb-a86f-3b8510d52453)
+
 
 **Раскладка скоропись**
 
