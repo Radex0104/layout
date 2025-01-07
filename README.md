@@ -55,7 +55,7 @@ python3 main.py
 
 ![лабораторная 1](https://github.com/user-attachments/assets/8d544b43-e5dc-4ff2-b401-6442b11aedda)
 
-**Лабораторная №3 "Подсчёт штрафов на пальцы в раскладках *Зубачев* и *Йцукен*":**
+**Лабораторная №3 "Подсчёт штрафов на пальцы:**
 
 ![лабораторная 3](https://github.com/user-attachments/assets/6ce28e01-019f-4927-85ff-3ca8ed9d25b5)
 
@@ -64,7 +64,7 @@ python3 main.py
 
 ![лабораторная 4](https://sun9-46.userapi.com/impg/_jN6nFcOpgEsQGTDDtzOpJasXd7k6S_SSJfCuA/g9x9l9XHNP8.jpg?size=1000x600&quality=95&sign=c628ccad0e7f65879b586dde29a370e0&type=album)
 -->
-**Лабораторная №5 "Подсчёт диграмм и триграмм, нажатых удобным перебором в раскладках *Зубачев* и *Йцукен*":**
+**Лабораторная №5 "Подсчёт диграмм и триграмм, нажатых удобным перебором:**
 
 ![лабораторная 5](https://github.com/user-attachments/assets/214e4117-bd0f-4937-a6db-cb7cc6e2ddfb)
 
