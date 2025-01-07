@@ -53,11 +53,11 @@ python3 main.py
 
 **Лабораторная №1 "Подсчёт нагрузок на пальцы в различных раскладках":**
 
-![лабораторная 1](![comparencione](https://github.com/user-attachments/assets/8d544b43-e5dc-4ff2-b401-6442b11aedda))
+![лабораторная 1](https://github.com/user-attachments/assets/8d544b43-e5dc-4ff2-b401-6442b11aedda)
 
 **Лабораторная №3 "Подсчёт штрафов на пальцы в раскладках *Зубачев* и *Йцукен*":**
 
-![лабораторная 3](![shtrafi](https://github.com/user-attachments/assets/6ce28e01-019f-4927-85ff-3ca8ed9d25b5))
+![лабораторная 3](https://github.com/user-attachments/assets/6ce28e01-019f-4927-85ff-3ca8ed9d25b5)
 
 <!--- на что эту хуйню менять? 
 **Лабораторная №4 "Подсчёт диграмм, нажатых удобным перебором в различных раскладках":**
